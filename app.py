@@ -1,5 +1,8 @@
 from flask import Flask, request, render_template, redirect, url_for
 from preprocessing import TextPreprocessing
+import sqlite3
+from collections import Counter
+import matplotlib.pyplot as plt
 
 app = Flask(__name__)
 
@@ -23,10 +26,9 @@ def search():
         preprocess = TextPreprocessing(stop_words, lemmatize)
         preprocessed_text = preprocess.preprocess(text)
         print(preprocessed_text)
-        result = 0  # здесь определяется класс
+        result = 1  # здесь определяется класс
         with open('result.txt', 'w+') as f:
             f.write(str(result))
-
         return redirect(url_for('results'))
 
     return render_template('search.html')
@@ -38,13 +40,45 @@ def results():
         result = f.read()
     if request.args:
         print(request.args['response'])
-        return render_template('statistics.html')
+        answer = request.args['response']
+        conn = sqlite3.connect('data.db')
+        cursor = conn.cursor()
+        cursor.execute("""CREATE TABLE IF NOT EXISTS answers
+                              (result, answer)
+                           """)
+        cursor.execute('INSERT INTO answers VALUES (?, ?)', (result, answer))
+        conn.commit()
+        return redirect(url_for('statistics'))
 
     return render_template('results.html', result=result)
 
 @app.route('/statistics',  methods=['POST', 'GET'])
 def statistics():
-     return 'Done'
+    conn = sqlite3.connect('data.db')
+    cursor = conn.cursor()
+    classes = []
+    good_a = []
+    for cl in cursor.execute('SELECT result, answer FROM answers').fetchall():
+        classes.append(cl[0])
+        if cl[1] == 'yes':
+            good_a.append(cl[0])  # всего разных строк
+
+    classes_count = Counter(classes)
+    good_count = Counter(good_a)
+    x = []
+    for key in classes_count.keys():
+        x.append(key)
+    y = []
+    for v1, v2 in classes_count.values(), good_count.values():
+        print(v1, v2)
+        y.append(int(v1)/int(v2))
+
+    print(x,y)
+    plt.title('Распределение правильных предсказаний по классам')
+    plt.bar(x, y, color="salmon")
+    plt.savefig('static/statistic.png')
+    plt.clf()
+    return render_template('statistics.html')
 
 
 if __name__ == '__main__':
