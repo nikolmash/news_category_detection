@@ -3,6 +3,15 @@ from preprocessing import TextPreprocessing
 import sqlite3
 from collections import Counter
 import matplotlib.pyplot as plt
+from joblib import load
+import os
+
+print(os.path.abspath(os.getcwd()))
+MODEL = load('./lr_0_0.joblib')
+TF_IDF = load('./tfidf_0_0.pkl')
+TOPICS = {0: 'Культура', 1: 'Мир', 2: 'Силовые структуры', 3: 'Наука и техника',
+          4: 'Россия', 5: 'Спорт', 6: 'Дом', 7: 'Бывший СССР', 8: 'Экономика',
+          9: 'Интернет и СМИ', 10: 'Из жизни', 11: 'Путешествия', 12: 'Ценности'}
 
 app = Flask(__name__)
 
@@ -26,7 +35,12 @@ def search():
         preprocess = TextPreprocessing(stop_words, lemmatize)
         preprocessed_text = preprocess.preprocess(text)
         print(preprocessed_text)
-        result = 1  # здесь определяется класс
+
+        prep = TextPreprocessing(0, 0)
+        text = prep.preprocess(preprocessed_text)
+        text = TF_IDF.transform([text])
+        result = TOPICS[MODEL.predict(text)[0]]
+
         with open('result.txt', 'w+') as f:
             f.write(str(result))
         return redirect(url_for('results'))
