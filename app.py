@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, redirect, url_for
-from preprocess import TextPreprocessing
+from preprocessing import TextPreprocessing
 
 app = Flask(__name__)
 
@@ -36,9 +36,8 @@ def search():
 def results():
     with open('result.txt', 'r') as f:
         result = f.read()
-
-    if request.method == "POST":
-        print(request.form.getlist('response'))
+    if request.args:
+        print(request.args['response'])
         return render_template('statistics.html')
 
     return render_template('results.html', result=result)
