@@ -20,8 +20,8 @@ def search():
         #print(stop_words, lemmatize)
         text = str(request.form['text'])
         #print(text)
-        preprocess = TextPreprocessing(text, stop_words, lemmatize)
-        preprocessed_text = preprocess.preprocess()
+        preprocess = TextPreprocessing(stop_words, lemmatize)
+        preprocessed_text = preprocess.preprocess(text)
         print(preprocessed_text)
         result = 0  # здесь определяется класс
         with open('result.txt', 'w+') as f:
