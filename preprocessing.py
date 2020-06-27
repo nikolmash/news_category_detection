@@ -4,8 +4,6 @@
 # In[5]:
 
 
-import pandas as pd
-import re
 import nltk
 import pymorphy2
 from string import punctuation
