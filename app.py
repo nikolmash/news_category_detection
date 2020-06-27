@@ -61,7 +61,7 @@ def statistics():
     for cl in cursor.execute('SELECT result, answer FROM answers').fetchall():
         classes.append(cl[0])
         if cl[1] == 'yes':
-            good_a.append(cl[0])  # всего разных строк
+            good_a.append(cl[0])
 
     classes_count = Counter(classes)
     good_count = Counter(good_a)
