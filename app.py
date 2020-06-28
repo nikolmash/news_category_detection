@@ -33,7 +33,7 @@ def search():
         for w in text.split():
             pos.append(morph.parse(w)[0].tag.POS)
         invalid_pos = Counter(pos)[None] / len(pos)
-        if len(pos) > 15 and invalid_pos > 0.2:
+        if len(pos) > 15 and invalid_pos < 0.5:
             preprocess = TextPreprocessing(stop_words, lemmatize)
             preprocessed_text = preprocess.preprocess(text)
             tf_idf, model = get_model(stop_words, lemmatize)
