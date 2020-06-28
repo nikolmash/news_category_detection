@@ -28,8 +28,15 @@ def download_model(stop_words, lemmatize, arr):
 def get_model(stop_words, lemmatize):
     if not os.path.exists('./lr_%d_%d.joblib' % (stop_words, lemmatize)):
         download_model(stop_words, lemmatize, MODEL_LINKS)
+        logger.info(f"lr_%d_%d.joblib was downloaded." % (stop_words, lemmatize))
+    else:
+        logger.info(f"lr_%d_%d.joblib already exists." % (stop_words, lemmatize))
+
     if not os.path.exists('./tfidf_%d_%d.pkl' % (stop_words, lemmatize)):
         download_model(stop_words, lemmatize, TF_IDF_LINKS)
+        logger.info(f"tfidf_%d_%d.pkl was downloaded." % (stop_words, lemmatize))
+    else:
+        logger.info(f"tfidf_%d_%d.pkl already exists." % (stop_words, lemmatize))
 
     model = load('./lr_%d_%d.joblib' % (stop_words, lemmatize))
     tf_idf = load('./tfidf_%d_%d.pkl' % (stop_words, lemmatize))
@@ -44,6 +51,7 @@ def force_download():
                 logger.info(f"lr_%d_%d.joblib was downloaded." % (stop_words, lemmatize))
             else:
                 logger.info(f"lr_%d_%d.joblib already exists." % (stop_words, lemmatize))
+
             if not os.path.exists('./tfidf_%d_%d.pkl' % (stop_words, lemmatize)):
                 download_model(stop_words, lemmatize, TF_IDF_LINKS)
                 logger.info(f"tfidf_%d_%d.pkl was downloaded." % (stop_words, lemmatize))
