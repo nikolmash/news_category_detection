@@ -5,6 +5,7 @@
 
 
 import nltk
+nltk.download('stopwords')
 import pymorphy2
 from string import punctuation
 from nltk.corpus import stopwords

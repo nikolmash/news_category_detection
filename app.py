@@ -3,13 +3,9 @@ from preprocessing import TextPreprocessing
 import sqlite3
 from collections import Counter
 import matplotlib.pyplot as plt
-from joblib import load
-import os
+from get_models import get_model
 import re
 
-print(os.path.abspath(os.getcwd()))
-MODEL = load('./lr_0_0.joblib')
-TF_IDF = load('./tfidf_0_0.pkl')
 TOPICS = {0: 'Культура', 1: 'Мир', 2: 'Силовые структуры', 3: 'Наука и техника',
           4: 'Россия', 5: 'Спорт', 6: 'Дом', 7: 'Бывший СССР', 8: 'Экономика',
           9: 'Интернет и СМИ', 10: 'Из жизни', 11: 'Путешествия', 12: 'Ценности'}
@@ -35,10 +31,9 @@ def search():
         if re.search(r'[А-Яа-яЁё]', text) and len(text.split()) > 15:
             preprocess = TextPreprocessing(stop_words, lemmatize)
             preprocessed_text = preprocess.preprocess(text)
-            prep = TextPreprocessing(0, 0)
-            text = prep.preprocess(preprocessed_text)
-            text = TF_IDF.transform([text])
-            result = TOPICS[MODEL.predict(text)[0]]
+            tf_idf, model = get_model(stop_words, lemmatize)
+            text_tf_idf = tf_idf.transform([preprocessed_text])
+            result = TOPICS[model.predict(text_tf_idf)[0]]
         else:
             raise ValueError
 
