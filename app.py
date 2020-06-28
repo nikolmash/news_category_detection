@@ -67,7 +67,7 @@ def results():
 
     return render_template('results.html', result=result)
 
-@app.route('/statistics',  methods=['POST', 'GET'])
+@app.route('/statistics', methods=['POST', 'GET'])
 def statistics():
     conn = sqlite3.connect('data.db')
     cursor = conn.cursor()
@@ -79,6 +79,8 @@ def statistics():
             good_a.append(cl[0])
 
     classes_count = Counter(classes)
+    print(classes)
+    print(good_a)
     good_count = list(Counter(good_a).values())
     x = []
     for key in classes_count.keys():
@@ -86,8 +88,8 @@ def statistics():
     y = []
     classes_count = list(Counter(classes_count).values())
     for i in range(len(classes_count)):
-        y.append(int(good_count[i])/int(classes_count[i]))
-    #print(x, y)
+        y.append(int(good_count[i]) / classes_count[i])
+    # print(x, y)
     plt.title('Распределение правильных предсказаний по классам')
     plt.bar(x, y, color="salmon")
     plt.savefig('static/statistics.png')
