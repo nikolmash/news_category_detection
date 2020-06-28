@@ -5,6 +5,7 @@ from collections import Counter
 import matplotlib.pyplot as plt
 from joblib import load
 import os
+import re
 
 print(os.path.abspath(os.getcwd()))
 MODEL = load('./lr_0_0.joblib')
@@ -31,15 +32,15 @@ def search():
             lemmatize = 0
         #print(stop_words, lemmatize)
         text = str(request.form['text'])
-        #print(text)
-        preprocess = TextPreprocessing(stop_words, lemmatize)
-        preprocessed_text = preprocess.preprocess(text)
-        print(preprocessed_text)
-
-        prep = TextPreprocessing(0, 0)
-        text = prep.preprocess(preprocessed_text)
-        text = TF_IDF.transform([text])
-        result = TOPICS[MODEL.predict(text)[0]]
+        if re.search(r'[А-Яа-яЁё]', text) and len(text.split()) > 15:
+            preprocess = TextPreprocessing(stop_words, lemmatize)
+            preprocessed_text = preprocess.preprocess(text)
+            prep = TextPreprocessing(0, 0)
+            text = prep.preprocess(preprocessed_text)
+            text = TF_IDF.transform([text])
+            result = TOPICS[MODEL.predict(text)[0]]
+        else:
+            raise ValueError
 
         with open('result.txt', 'w+') as f:
             f.write(str(result))
@@ -53,7 +54,7 @@ def results():
     with open('result.txt', 'r') as f:
         result = f.read()
     if request.args:
-        print(request.args['response'])
+        #print(request.args['response'])
         answer = request.args['response']
         conn = sqlite3.connect('data.db')
         cursor = conn.cursor()
@@ -86,7 +87,7 @@ def statistics():
     classes_count = list(Counter(classes_count).values())
     for i in range(len(classes_count)):
         y.append(int(good_count[i])/int(classes_count[i]))
-    print(x, y)
+    #print(x, y)
     plt.title('Распределение правильных предсказаний по классам')
     plt.bar(x, y, color="salmon")
     plt.savefig('static/statistics.png')
