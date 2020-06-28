@@ -79,17 +79,14 @@ def statistics():
             good_a.append(cl[0])
 
     classes_count = Counter(classes)
-    print(classes)
-    print(good_a)
-    good_count = list(Counter(good_a).values())
-    x = []
-    for key in classes_count.keys():
-        x.append(key)
+    x = list(classes_count.keys())
+    for cl in x:
+        good_a.append(cl)
     y = []
+    good_count = list(Counter(good_a).values())
     classes_count = list(Counter(classes_count).values())
     for i in range(len(classes_count)):
-        y.append(int(good_count[i]) / classes_count[i])
-    # print(x, y)
+        y.append((int(good_count[i])-1) / classes_count[i])
     plt.title('Распределение правильных предсказаний по классам')
     plt.bar(x, y, color="salmon")
     plt.savefig('static/statistics.png')
