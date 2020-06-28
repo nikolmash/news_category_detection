@@ -3,7 +3,7 @@
 
 Проект направлен на создание приложения, в котором пользователь может ввести собственный текст новости и узнать, к какой категории она относится. Обучение классификатора производилось на материале текстов с новостного портала Lenta.ru (объём корпуса - 50 000 статей). 
 
-Датасет можно скачать по этой [ссылке] (https://drive.google.com/file/d/1-6ECrlJB69HMTB1M3W1P6BwHVeCS0hLY/view?usp=sharing)
+Датасет можно скачать по этой [ссылке](https://drive.google.com/file/d/1-6ECrlJB69HMTB1M3W1P6BwHVeCS0hLY/view?usp=sharing)
 
 Репозиторий состоит из следующих файлов:
 * [README.md](https://github.com/nikolmash/news_category_detection/blob/master/README.md) - описание проекта и пререквизитов.
