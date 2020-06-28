@@ -4,7 +4,7 @@ import sqlite3
 from collections import Counter
 import matplotlib.pyplot as plt
 from get_models import get_model
-import re
+import pymorphy2
 
 TOPICS = {0: 'Культура', 1: 'Мир', 2: 'Силовые структуры', 3: 'Наука и техника',
           4: 'Россия', 5: 'Спорт', 6: 'Дом', 7: 'Бывший СССР', 8: 'Экономика',
@@ -28,7 +28,12 @@ def search():
             lemmatize = 0
         #print(stop_words, lemmatize)
         text = str(request.form['text'])
-        if re.search(r'[А-Яа-яЁё]', text) and len(text.split()) > 15:
+        morph = pymorphy2.MorphAnalyzer()
+        pos = []
+        for w in text.split():
+            pos.append(morph.parse(w)[0].tag.POS)
+        invalid_pos = Counter(pos)[None] / len(pos)
+        if len(pos) > 15 and invalid_pos > 0.2:
             preprocess = TextPreprocessing(stop_words, lemmatize)
             preprocessed_text = preprocess.preprocess(text)
             tf_idf, model = get_model(stop_words, lemmatize)
