@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Облака слов</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+
+<div class="jumbotron text-center" style='background:#FFC0CB'>
+    <h1><font face="Century Gothic">Облака с важными словами для разных препроцессингов тренировочной выборки</font></h1>
+</div>
+
+<div class="jumbotron text-center" style='background:#FFFAFA'>
+    <h2 face="Century Gothic">Нет стоп-слов, нет лемматизации</h2>
+    <img src="{{url_for('static', filename='cloud_0_0.png')}}" width="500" height="500"/>
+</div>
+
+<div class="jumbotron text-center" style='background:#FFFAFA'>
+    <h2 face="Century Gothic">Нет стоп-слов, есть лемматизация</h2>
+    <img src="{{url_for('static', filename='cloud_0_1.png')}}" width="500" height="500"/>
+</div>
+
+<div class="jumbotron text-center" style='background:#FFFAFA'>
+    <h2 face="Century Gothic">Есть стоп-слова, нет лемматизации</h2>
+    <img src="{{url_for('static', filename='cloud_1_0.png')}}" width="500" height="500"/>
+</div>
+
+<div class="jumbotron text-center" style='background:#FFFAFA'>
+    <h2 face="Century Gothic">Есть стоп-слова, есть лемматизация</h2>
+    <img src="{{url_for('static', filename='cloud_1_1.png')}}" width="500" height="500"/>
+</div>
+
+</html>
