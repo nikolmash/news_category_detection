@@ -18,13 +18,12 @@
 <div class="jumbotron text-center" style='background:#FFFAFA'>
   <div class="row">
 	<h2>Введите текст статьи, чтобы определить ее класс</h2>
-      <div>
-      </div>
 	<div class="col-sm-8">
     </div>
   </div>
   <form method="POST" action="/">
-     <p><input type="text" name="text" placeholder="Ввести текст..."></p>
+     <p><input type="text" name="text" placeholder="Ввести текст..." size="40"></p>
+    <a href={{url_for('clouds')}}>Посмотреть топ-слова для разных препроцессингов</a><br>
     <input type="checkbox" value = "1" name="mycheckbox"> Убрать стоп-слова<br>
     <input type="checkbox" value = "2" name="mycheckbox"> Лемматизировать<br>
     <input type="submit">
