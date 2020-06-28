@@ -95,5 +95,10 @@ def statistics():
     return render_template('statistics.html')
 
 
+@app.route('/clouds')
+def clouds():
+    return render_template('clouds.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True)
