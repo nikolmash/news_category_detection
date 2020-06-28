@@ -30,8 +30,8 @@ def get_model(stop_words, lemmatize):
 
 
 def force_download():
-    for stop_words in range(0):
-        for lemmatize in range(0):
+    for stop_words in range(1):
+        for lemmatize in range(1):
             if not os.path.exists('./lr_%d_%d.joblib' % (stop_words, lemmatize)):
                 download_model(stop_words, lemmatize, MODEL_LINKS)
             if not os.path.exists('./tfidf_%d_%d.pkl' % (stop_words, lemmatize)):
